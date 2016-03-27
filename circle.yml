@@ -23,8 +23,8 @@ database:
 test:
   pre:
     # go をダウンロードしてインストール
-    - wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz -O $HOME/golang1.6.tar.gz
-    - tar zxf $HOME/golang1.6.tar.gz -C $HOME
+    - wget https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz -O $HOME/golang1.5.3.tar.gz
+    - tar zxf $HOME/golang1.5.3.tar.gz -C $HOME
     # 必要パッケージインストール
     - go get github.com/Masterminds/glide
     - go get bitbucket.org/liamstask/goose/cmd/goose
