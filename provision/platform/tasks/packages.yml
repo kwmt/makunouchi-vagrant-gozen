@@ -1,0 +1,62 @@
+---
+- name: Downloading and enable the EPEL repository definitions.
+  action: command rpm -Uvh --replacepkgs http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+
+- name: Downloading and enable the REMI repository definitions.
+  action: command rpm -Uvh --replacepkgs http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+
+- name: Downloading and enable the Nginx repository definitions.
+  action: command rpm -Uvh --replacepkgs http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm
+
+- name: be sure all existing packages are updated
+  yum: name=* state=latest
+
+- yum: name=MySQL-python state=present enablerepo=remi,epel
+
+- name: Check if selinux is installed
+  command: getenforce
+  register: command_result
+  ignore_errors: True
+
+- name: Install libselinux-python
+  yum: name={{ item }}
+  with_items:
+    - epel-release
+    - libselinux-python
+  when: command_result|success and command_result.stdout != 'Disabled'
+
+- name: be sure Nginx is installed
+  yum: name={{ item }} state=present enablerepo=nginx
+  with_items:
+    - nginx
+  tags: common-packages
+
+- name: Get Package For Install Newer Git
+  yum: name={{ item }} state=present
+  with_items:
+    - gcc
+    - curl-devel
+    - expat-devel
+    - gettext-devel
+    - openssl-devel
+    - zlib-devel
+    - perl-ExtUtils-MakeMaker
+  tags: common-packages
+
+- name: Get And Install Git
+  shell: |
+    wget https://www.kernel.org/pub/software/scm/git/git-2.6.4.tar.gz
+    tar zxf git-2.6.4.tar.gz
+    cd git-2.6.4
+    make prefix=/usr/local all
+    make prefix=/usr/local install
+  args:
+    chdir: /tmp
+  sudo: yes
+
+- yum: name=mysql state=present enablerepo=remi,epel
+  tags: common-packages
+
+- yum: name=mysql-server state=present enablerepo=remi,epel
+  tags: common-packages
+

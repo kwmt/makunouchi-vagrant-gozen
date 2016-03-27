@@ -1,0 +1,6 @@
+---
+domain: api.gozen.com
+user: vagrant
+group: vagrant
+user_home: /home/vagrant
+

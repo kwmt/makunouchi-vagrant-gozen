@@ -1,0 +1,3 @@
+---
+- mysql_db: name=gozen state=present
+- mysql_user: name=gozen password=rootpass priv=gozen.*:ALL state=present

@@ -1,0 +1,35 @@
+machine:
+  timezone:
+    Asia/Tokyo
+  environment:
+    GOROOT: "$HOME/go"
+    GOPATH: "$HOME/$CIRCLE_PROJECT_REPONAME"
+    GO15VENDOREXPERIMENT: "1"
+    PATH: "$PATH:$GOROOT/bin:$GOPATH/bin"
+
+
+database:
+  post:
+    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/db/setup/mysql.sql
+
+#dependencies:
+
+test:
+  pre:
+    # go をダウンロードしてインストール
+    - wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz -O $HOME/golang1.6.tar.gz
+    - tar zxf $HOME/golang1.6.tar.gz -C $HOME
+    # 必要パッケージインストール
+    - go get github.com/Masterminds/glide
+    - go get bitbucket.org/liamstask/goose/cmd/goose
+    - rm -Rf $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/vendor/*
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen && glide update
+    # マイグレーション
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen && goose up
+  override:
+    # コンパイル出来るか試す
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go build
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/controllers && go test -bench . -benchmem
+
+#deployment:

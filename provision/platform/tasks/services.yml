@@ -1,0 +1,26 @@
+---
+- service: name=iptables state=stopped enabled=no
+
+- name: be sure nginx config file correct
+  template: src=default.conf dest=/etc/nginx/conf.d/default.conf backup=yes
+
+- service: name=mysqld state=started enabled=yes
+
+- name: be sure SSL files are in /usr/local/etc/ssl
+  file: path=/usr/local/etc/ssl state=directory owner=root group=root mode=0755
+- copy: src=VAGRANT.crt dest=/usr/local/etc/ssl/VAGRANT.crt owner=root group=root mode=0644
+- copy: src=VAGRANT.csr dest=/usr/local/etc/ssl/VAGRANT.csr owner=root group=root mode=0644
+- copy: src=VAGRANT.key dest=/usr/local/etc/ssl/VAGRANT.key owner=root group=root mode=0644
+
+- name: export Go Path And Root
+  template: src=go.sh dest=/etc/profile.d/go.sh owner=root group=root mode=0644
+
+- name: Reflection For vagrant go.sh
+  shell: source /etc/profile
+  sudo: no
+
+- name: Reflection For root go.sh
+  shell: source /etc/profile
+  sudo: yes
+
+- service: name=nginx state=restarted enabled=yes

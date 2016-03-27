@@ -1,0 +1,12 @@
+---
+- hosts: default
+  remote_user: vagrant
+  sudo: yes
+  roles:
+    - platform
+
+- hosts: default
+  remote_user: vagrant
+  sudo: no
+  roles:
+    - app

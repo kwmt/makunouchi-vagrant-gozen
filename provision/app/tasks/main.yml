@@ -1,0 +1,28 @@
+---
+- include_vars: common-vars.yml
+
+- stat: path=/var/work/golang/go-1.6
+  register: godir
+
+- name: Get And Install Go
+  shell: |
+      wget https://storage.googleapis.com/golang/go1.6.linux-amd64.tar.gz -O /tmp/golang1.6.tar.gz
+      tar zxf golang1.6.tar.gz
+      mv /tmp/go /var/work/golang/go-1.6
+      ln -s /var/work/golang/go-1.6 /var/work/golang/go
+  args:
+    chdir: /tmp
+  sudo: yes
+  when: not godir.stat.exists
+
+- name: Install Go glide
+  shell: |
+      go get github.com/Masterminds/glide
+      go install github.com/Masterminds/glide
+  sudo: no
+
+- name: Install Go goose
+  shell: |
+      go get bitbucket.org/liamstask/goose/cmd/goose
+      go install bitbucket.org/liamstask/goose/cmd/goose
+  sudo: no
