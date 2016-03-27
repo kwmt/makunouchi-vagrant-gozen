@@ -10,7 +10,8 @@ machine:
 
 database:
   post:
-    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/db/setup/mysql.sql
+    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/db/test/init_setup.sql
+    - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/db/test/create_database.sql
 
 #dependencies:
 
