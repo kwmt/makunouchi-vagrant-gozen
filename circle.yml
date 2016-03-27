@@ -8,6 +8,11 @@ machine:
     PATH: "$PATH:$GOROOT/bin:$GOPATH/bin"
 
 
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+
 database:
   post:
     - mysql -u root < $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/db/test/init_setup.sql
