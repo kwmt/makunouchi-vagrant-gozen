@@ -25,6 +25,9 @@ test:
     # go をダウンロードしてインストール
     - wget https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz -O $HOME/golang1.5.3.tar.gz
     - tar zxf $HOME/golang1.5.3.tar.gz -C $HOME
+
+    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet ./...
+
     # 必要パッケージインストール
     - go get github.com/Masterminds/glide
     - go get bitbucket.org/liamstask/goose/cmd/goose
@@ -34,7 +37,6 @@ test:
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen && goose up
   override:
     # コンパイル出来るか試す
-    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go build
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/controllers && go test -bench . -benchmem
 
