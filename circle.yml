@@ -26,15 +26,18 @@ test:
     - wget https://storage.googleapis.com/golang/go1.5.3.linux-amd64.tar.gz -O $HOME/golang1.5.3.tar.gz
     - tar zxf $HOME/golang1.5.3.tar.gz -C $HOME
 
+    - rm -Rf $GOPATH/src/gozen/vendor/*
+
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet ./...
 
     # 必要パッケージインストール
-    - go get github.com/Masterminds/glide
-    - go get bitbucket.org/liamstask/goose/cmd/goose
-    - rm -Rf $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/vendor/*
-    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen && glide update
-    # マイグレーション
-    - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen && goose up
+    - go run $GOPATH/src/gozen/tools/goget.go
+
+
+    # install libraries and run migration
+    - go run $GOPATH/src/gozen/tools/setup.go
+
+
   override:
     # コンパイル出来るか試す
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go build
