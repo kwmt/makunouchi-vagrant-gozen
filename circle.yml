@@ -30,12 +30,8 @@ test:
 
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet ./...
 
-    # 必要パッケージインストール
-    - go run $GOPATH/src/gozen/tools/goget.go
-
-
     # install libraries and run migration
-    - go run $GOPATH/src/gozen/tools/setup.go
+    - go run $GOPATH/src/gozen/tools/init.go
 
 
   override:
