@@ -3,13 +3,20 @@
 ## ローカル環境構築
 
 ローカル環境はVagrantで構築しています。
-Vagrantを用意して
+
 
 ```
-vagrant up
+% git clone git@github.com:kwmt/makunouchi-vagrant-gozen.git
+% cd makunouchi-vagrant-gozen
+% vagrant up
 ```
 
-を実行してください
+無事 vagrant が立ち上がったら vagrant 内で ansible を実行してください
+
+```
+vagrant ssh -c "ansible-playbook -i ~/provision/hosts ~/provision/playbook.yml"
+```
+
 vagrantとローカルファイルシステムとのマウントが失敗する場合は vagrant 側のkernelを更新してから再実行してください
 
 ```
@@ -20,11 +27,7 @@ vagrant ssh  -c "sudo yum update -y"
 vagrant reload
 ```
 
-無事 vagrant が立ち上がったら vagrant 内で ansible を実行してください
 
-```
-vagrant ssh -c "ansible-playbook -i ~/provision/hosts ~/provision/playbook.yml"
-```
 
 ## IntelliJ 開発手順
 
