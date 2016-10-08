@@ -1,3 +1,0 @@
-[submodule "src/gozen"]
-	path = src/gozen
-	url = git@github.com:techvein/gozen.git
