@@ -13,6 +13,7 @@ checkout:
   post:
     - git submodule sync
     - git submodule update --init
+    - git submodule foreach git pull origin master
 
 database:
   post:
