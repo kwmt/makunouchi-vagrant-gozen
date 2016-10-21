@@ -1,15 +1,15 @@
 ---
 - include_vars: common-vars.yml
 
-- stat: path=/var/work/golang/go-1.7.1
+- stat: path=/var/work/golang/go-1.7.3
   register: godir
 
 - name: Get And Install Go
   shell: |
-      wget https://storage.googleapis.com/golang/go1.5.4.linux-amd64.tar.gz -O /tmp/golang1.7.1.tar.gz
-      tar zxf golang1.7.1.tar.gz
-      mv /tmp/go /var/work/golang/go-1.7.1
-      ln -s /var/work/golang/go-1.7.1 /var/work/golang/go
+      wget https://storage.googleapis.com/golang/go1.7.3.linux-amd64.tar.gz -O /tmp/golang1.7.3.tar.gz
+      tar zxf golang1.7.3.tar.gz
+      mv /tmp/go /var/work/golang/go-1.7.3
+      ln -s /var/work/golang/go-1.7.3 /var/work/golang/go
   args:
     chdir: /tmp
   sudo: yes
