@@ -6,6 +6,7 @@ machine:
     GOPATH: "$HOME/$CIRCLE_PROJECT_REPONAME"
     GO15VENDOREXPERIMENT: "1"
     PATH: "$PATH:$GOROOT/bin:$GOPATH/bin"
+    GO_VERSION: "1.7.3"
 
 
 checkout:
@@ -23,8 +24,8 @@ database:
 test:
   pre:
     # go をダウンロードしてインストール
-    - wget https://storage.googleapis.com/golang/go1.7.1.linux-amd64.tar.gz -O $HOME/golang1.7.1.tar.gz
-    - tar zxf $HOME/golang1.7.1.tar.gz -C $HOME
+    - wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz -O $HOME/golang$GO_VERSION.tar.gz
+    - tar zxf $HOME/golang$GO_VERSION.tar.gz -C $HOME
 
     - rm -Rf $GOPATH/src/gozen/vendor/*
 
