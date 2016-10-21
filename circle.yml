@@ -24,6 +24,8 @@ database:
 
 test:
   pre:
+    # 最新を使いたいので用意されているgoは削除
+    - sudo rm -rf /usr/local/go
     # go をダウンロードしてインストール
     - wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz -O $HOME/golang$GO_VERSION.tar.gz
     - tar zxf $HOME/golang$GO_VERSION.tar.gz -C $HOME
@@ -31,6 +33,8 @@ test:
     - rm -Rf $GOPATH/src/gozen/vendor/*
 
     - cd $HOME/$CIRCLE_PROJECT_REPONAME/src/gozen/api && go vet ./...
+
+    - go version
 
     # install libraries and run migration
     - go run $GOPATH/src/gozen/tools/init.go
